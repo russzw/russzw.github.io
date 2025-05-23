@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Russell Mutamba</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #a259ff;
+      animation: fadeInSlide 1.5s ease-out;
+    }
+
+    p {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      color: #ccc;
+      max-width: 600px;
+      animation: fadeInSlide 2s ease-out;
+    }
+
+    .countdown {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      animation: fadeInSlide 2.5s ease-out;
+    }
+
+    .time-box {
+      background: #111;
+      padding: 1rem 1.2rem;
+      border: 2px solid #a259ff;
+      border-radius: 10px;
+      min-width: 80px;
+    }
+
+    .time-box h2 {
+      color: #fff;
+      font-size: 1.8rem;
+    }
+
+    .time-box span {
+      font-size: 0.85rem;
+      color: #a259ff;
+    }
+
+    @keyframes fadeInSlide {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 1rem;
+      color: #555;
+      font-size: 0.8rem;
+      animation: fadeInSlide 3s ease-out;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .time-box {
+        min-width: 60px;
+        padding: 0.8rem;
+      }
+
+      .time-box h2 {
+        font-size: 1.5rem;
+      }
+
+      .time-box span {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Coming Soon</h1>
+  <p>Something awesome is on the way. Stay tuned!</p>
+
+  <div class="countdown">
+    <div class="time-box">
+      <h2 id="days">7</h2>
+      <span>Days</span>
+    </div>
+    <div class="time-box">
+      <h2 id="hours">00</h2>
+      <span>Hours</span>
+    </div>
+    <div class="time-box">
+      <h2 id="minutes">00</h2>
+      <span>Minutes</span>
+    </div>
+    <div class="time-box">
+      <h2 id="seconds">00</h2>
+      <span>Seconds</span>
+    </div>
+  </div>
+
+  <footer>&copy; 2025 devruss. All rights reserved.</footer>
+
+  <script>
+    // Countdown with localStorage support
+    let endDate = localStorage.getItem("countdownEndDate");
+
+    if (!endDate) {
+      const tempDate = new Date();
+      tempDate.setDate(tempDate.getDate() + 7);
+      endDate = tempDate.toISOString();
+      localStorage.setItem("countdownEndDate", endDate);
+    }
+
+    endDate = new Date(endDate);
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = endDate - now;
+
+      if (diff <= 0) {
+        document.getElementById("days").textContent = "0";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / 1000 / 60) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
